@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <mvc:annotation-driven/>
+
+    <mvc:default-servlet-handler/>
+
+    <context:component-scan base-package="com.hnguigu.oa.web.controller"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!--  &lt;!&ndash; SpringMVC在超出上传文件限制时，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException &ndash;&gt;
+      &lt;!&ndash; 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 &ndash;&gt;
+      <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+          <property name="exceptionMappings">
+              <props>
+                  &lt;!&ndash; 遇到MaxUploadSizeExceededException异常时，自动跳转到/WEB-INF/error_fileupload.jsp页面 &ndash;&gt;
+                  <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">WEB-INF/error_fileupload</prop>
+                  &lt;!&ndash; 处理其它异常(包括Controller抛出的) &ndash;&gt;
+                  <prop key="java.lang.Throwable">500.jsp</prop>
+              </props>
+          </property>
+      </bean>-->
+
+    <bean id="customerExceptionResolver" class="com.hnguigu.oa.web.exception.MyExceptionHandler"></bean>
+
+</beans>

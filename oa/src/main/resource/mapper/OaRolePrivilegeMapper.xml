@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hnguigu.oa.dao.OaRolePrivilegeMapper">
+    <resultMap id="RoleResultMap" type="com.hnguigu.oa.domain.OaRole">
+        <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
+    </resultMap>
+
+
+    <resultMap id="PrivilegeResultMap" type="com.hnguigu.oa.domain.OaPrivilege">
+        <id column="privilege_id" jdbcType="INTEGER" property="privilegeId"/>
+        <result column="privilege_name" jdbcType="VARCHAR" property="privilegeName"/>
+        <result column="privilege_url" jdbcType="VARCHAR" property="privilegeUrl"/>
+        <result column="privilege_level" jdbcType="INTEGER" property="privilegeLevel"/>
+        <result column="privilege_is_leaf" jdbcType="VARCHAR" property="privilegeIsLeaf"/>
+        <result column="privilege_is_module" jdbcType="VARCHAR" property="privilegeIsModule"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="privilege_code" jdbcType="VARCHAR" property="privilegeCode"/>
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap" type="com.hnguigu.oa.domain.OaRolePrivilege">
+        <id column="role_privilege_id" jdbcType="INTEGER" property="rolePrivilegeId"/>
+        <association column="role_id" jdbcType="INTEGER" property="roles" resultMap="RoleResultMap"/>
+        <association column="privilege_id" jdbcType="INTEGER" property="privileges" resultMap="PrivilegeResultMap"/>
+    </resultMap>
+
+    <select id="findRoleAndPrivilegeByUser" resultMap="BaseResultMap">
+        select o.*, op.*
+        from oa_role_privilege orp
+                 left join oa_user_role our on orp.role_id = our.role_id
+                 left join oa_user ou on our.user_id = ou.user_id
+                 left join oa_privilege op on orp.privilege_id = op.privilege_id
+                 left join oa_role o on orp.role_id = o.role_id
+        where ou.user_id = 7;
+    </select>
+</mapper>
